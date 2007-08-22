@@ -1,0 +1,42 @@
+{% load i18n %}
+<style type="text/css">
+.paginator { padding: .25em .25em .6em .25em; }
+.paginate-pages { padding: 2px 3px; border: 1px solid #ddd; cursor: pointer; text-decoration: underline; }
+.paginate-first, .paginate-last { padding: 2px 6px; border: 1px solid #ddd; font-weight: bold; }
+.paginate-previous, .paginate-next { padding: 2px 3px; border: 1px solid #ddd; }
+.paginate-link { padding: 2px 4px; border: 1px solid #ddd; }
+.paginate-current { padding: 2px 4px; border: 1px solid #ddd; font-weight: bold; background:#417690; color:#f4f379; }
+</style>
+
+<script type="text/javascript">
+var Paginator =
+{
+    jumpToPage: function(pages)
+    {
+        var page = prompt("Enter a number between 1 and " + pages + " to jump to that page", "");
+        if (page != undefined)
+        {
+            page = parseInt(page, 10)
+            if (!isNaN(page) && page > 0 && page <= pages)
+            {
+                window.location.href = "?page=" + page;
+            }
+        }
+    }
+};
+</script>
+
+{% spaceless %}
+<span class="paginate-pages" onclick="Paginator.jumpToPage({{ pages }})" title="{% blocktrans %}Page Jump{% endblocktrans %}">{{ pages }} {% trans "Pages" %}</span>
+{% if show_first %}<span class="paginate-first"><a href="?page=1" title="{% blocktrans %}First Page{% endblocktrans %}">&laquo;</a></span>{% endif %}
+{% if has_previous %}<span class="paginate-previous"><a href="?page={{ previous }}" title="{% blocktrans %}Previous Page{% endblocktrans %}">&lt;</a></span>{% endif %}
+{% for num in page_numbers %}
+  {% ifequal num page %}
+    <span class="paginate-current" title="Current Page">{{ num }}</span>
+  {% else %}
+    <span class="paginate-link"><a href="?page={{ num }}" title="{% blocktrans %}Page{% endblocktrans %} {{ num }}">{{ num }}</a></span>
+  {% endifequal %}
+{% endfor %}
+{% if has_next %}<span class="paginate-next"><a href="?page={{ next }}" title="{% blocktrans %}Next Page{% endblocktrans %}">&gt;</a></span>{% endif %}
+{% if show_last %}<span class="paginate-last"><a href="?page={{ pages }}" title="{% blocktrans %}Last Page{% endblocktrans %}">&raquo;</a></span>{% endif %}
+{% endspaceless %}

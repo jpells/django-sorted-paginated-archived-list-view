@@ -1,0 +1,4 @@
+{% load i18n %}
+{% spaceless %}
+<a href="{{ link_url }}sort_by={% if ascending %}-{% endif %}{{ field_name }}{% if page %}&page={{ page }}{% endif %}">{% blocktrans %}{{ link_name }}{% endblocktrans %} {% if ascending %}<img src="{{ MEDIA_URL }}/images/arrow-up.gif" />{% else %}{% if descending %}<img src="{{ MEDIA_URL }}/images/arrow-down.gif" />{% endif %}{% endif %}</a>
+{% endspaceless %}

@@ -1,0 +1,5 @@
+{% spaceless %}
+{% for PaginateBy in paginate_by %}
+<a href="{{ link_url }}paginate_by/{{ PaginateBy.number }}/{% if PaginateBy.display_page %}?page={{ page }}{% endif %}">{{ PaginateBy.number }}</a>
+{% endfor %}
+{% endspaceless %}
