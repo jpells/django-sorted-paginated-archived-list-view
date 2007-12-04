@@ -9,7 +9,10 @@ def sorted_paginated_authored_archived_list(request, model, base_url, username=N
     by_url = ''
     sort_by_url = ''
     paginate_by_url = ''
-    queryset = model.objects.all()
+    if hasattr(model, 'published_objects'):
+        queryset = model.published_objects.all()
+    else:
+        queryset = model.objects.all()
     if filter:
         queryset = queryset.filter(**filter)
     if year != None:
@@ -50,4 +53,4 @@ def sorted_paginated_authored_archived_list(request, model, base_url, username=N
         extra_context.update(dict(sort_field=sort_field, base_url=base_url, sort_url=sort_url))
     else:
         extra_context = dict(sort_field=sort_field, base_url=base_url, sort_url=sort_url)
-    return object_list(request, queryset=queryset, allow_empty='true', paginate_by=int(paginate_by), extra_context=extra_context, template_name=template_name)
+    return object_list(request, queryset=queryset, paginate_by=int(paginate_by), extra_context=extra_context, template_name=template_name)
